@@ -21,6 +21,7 @@
    The package of UBER contains the following files and directories:
 
       README         This file
+      LICENSE        Software license
       CHANGELOG      Log of changes
       Makefile       Makefile of the UBER library
       Makefile.in    Makefile include that defines directories and compilers
