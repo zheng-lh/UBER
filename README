@@ -251,9 +251,9 @@
    
    The auxilliary data files ex3_bounce_loss_cone.dat and ex3_dipole_lshell.dat,
    located in ./examples/data/, store the local bounce loss cone angle and dipole
-   L-shell as functions of geomagnetic longitude along the electron drift shell. They
-   were generated using the uber_create_data_file.m script (in ./scripts/) to conform
-   with the UBER input binary file format.
+   L-shell as functions of geomagnetic longitude along the electron drift shell.
+   They were generated using the uber_create_data_file.m script (in ./scripts/) to
+   conform with the UBER input binary file format.
 
    The script example3_plot.m plots two snapshots of f versus y and x at t = 2 and 4
    hr. One should see distinct west-east gradient of f below x = 60 deg that changes
