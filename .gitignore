@@ -11,10 +11,8 @@
 # Executables
 *.x
 
-# Logs and data files
+# Log files
 *.log
-*.dat
-*.mat
 
 # Packages
 *.tar
