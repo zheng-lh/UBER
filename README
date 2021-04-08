@@ -231,7 +231,7 @@
 
    4.3 Example3
 
-   This example illustrates how grided data are used in setting boundary geometry
+   This example illustrates how gridded data are used in setting boundary geometry
    and equation coefficients in UBER, and how periodic boundary conditions are
    implemented. The equation is a Boltzmann equation arising from Earth's inner
    radiation belt dynamics, which has the form
