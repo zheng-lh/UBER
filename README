@@ -202,17 +202,17 @@
 
    which says that a particle initially at x (x<1/2) has a transition rate of 10 to
    jump to y = x + 1/2. With this simplification, the integrals in Eq. (7) can be
-   carried out explicitly, which yield 
+   worked out explicitly, which yield 
 
-         /              ( 1, for x < 1/2
+         /              ( 10, for x < 1/2
          | P(x->y)dy = <                                                      (9)
-         /              ( 0, for x>= 1/2
+         /              ( 0,  for x>= 1/2
 
    and
 
-         /                    ( 0,          for x < 1/2
+         /                    ( 0,            for x < 1/2
          | P(y->x)f(t,y)dy = <                                                (10)
-         /                    ( f(t,x-1/2), for x>= 1/2
+         /                    ( 10f(t,x-1/2), for x>= 1/2
 
    For the general situations where P(x->y) is not a delta function, functions
    carrying out these integrals shall be called at assigning these equation terms.
