@@ -1,0 +1,22 @@
+#############
+#   Shell   #
+#############
+
+SHELL = bash
+
+#######################################
+#   Library and include directories   #
+#######################################
+
+libdir =
+incdir =
+
+#################
+#   Compilers   #
+#################
+
+FC = gfortran
+CC = gcc
+#FC = ifort
+#CC = icc
+

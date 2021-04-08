@@ -1,0 +1,272 @@
+                    Universal Boltzmann Equation Solver Ver. 1.0
+
+1. Overview
+
+   This is a FORTRAN library for "Universal Boltzmann Equation Solver" (UBER), which
+   solves the general form of Fokker-Planck equation and Boltzmann equation, 
+   diffusive or non-diffusive, that appear in modeling planetary radiation belts. 
+   Users can freely specify (1) the coordinate system, (2) boundary geometry and
+   boundary conditions, and (3) the equation terms and coefficients. The solver
+   works for problems in one to three spatial dimensions.
+
+   The solver is based upon the mathematical theory of stochastic differential
+   equations. By its nature, the solver scheme is intrinsically Monte Carlo, and the
+   solutions thus contain stochastic uncertainty, though the user may dictate an 
+   arbitrarily small relative tolerance of the stochastic uncertainty at the cost of
+   longer Monte Carlo iterations. Ref [1] gives a thorough description of the theory
+   and applications of the solver.
+
+2. Compilation and configuration
+
+   The package of UBER contains the following files and directories:
+
+      README         This file
+      CHANGELOG      Log of changes
+      Makefile       Makefile of the UBER library
+      Makefile.in    Makefile include that defines directories and compilers
+      src            Source code
+      scripts        MATLAB scripts for processing input and output data files
+      examples       Examples of UBER usage
+
+   UBER depends on the following well-maintained libraries:
+
+      DCMT              (github.com/MersenneTwister-Lab/dcmt)
+      REFERENCE BLAS    (www.netlib.org/blas/)
+      LAPACK            (www.netlib.org/lapack/)
+
+   The current release has been tested using dcmt version 0.6.1, refblas version
+   3.8.0 and lapack version 3.9.0. The user must edit Makefile.in to specify the
+   directories of these libraries and their include files.
+
+   To compile UBER, in the directory of this README, do "make". Then "libuber.a" 
+   will be created in this directory, and the compilation for the library is done. 
+   To use the library, "use uber" in your source code, and link your code with
+   libuber.a, libdcmt.a, librefblas.a and liblapack.a when compiling the source. In
+   addition, "make oclean" cleans the intermediate object files generated in the
+   compiling process, and "make clean" removes everything that "make" would create.
+
+   UBER is parallelized by OpenMP. For its proper execution, set these environmental
+   variables in bash
+
+      export OMP_STACKSIZE=256M (or higher)
+      export OMP_NUM_THREADS= the number of threads you want to use
+
+   in csh or tcsh
+
+      setenv OMP_STACKSIZE=256M (or higher)
+      setenv OMP_NUM_THREADS= the number of threads you want to use
+
+   Make sure you add these enviromental variables to your .bashrc, .cshrc, or
+   .tcshrc script.
+
+3. The library structure and functions
+
+   The library contains a physics branch and a mathematics branch. The physics
+   branch is a collection of physical constants and functions that often appear in
+   radiation belt studies. They are contained and explained in the source file
+   ./src/utilities/functions.F90.
+
+   The mathematics branch fully defines and solves the partial differential equation
+   (PDE) problem. It is consisted of three parts: (1) a domain part that states the
+   computational domain, the initial condition, the boundary geometry and the 
+   boundary conditions; (2) an equation part that specifies the coordinate system 
+   (in terms of the gradient of logrithm of the Jacobian determinant), the equation
+   terms and the equation coefficients; and (3) the solver, with the solver data 
+   types and parameters collectively defined and explained in the source file
+   ./src/params/mod_typedef_params.F90.
+
+   To specify the domain and the equation, the user must edit the self-explanatory
+   source file user_input.F90 following the templates provided in the examples 
+   directory. This source file is to be compiled together with your code making use
+   of UBER. See the Makefile in the examples directory for an illustration.
+
+   There are two solver subroutines in the library: a lower-level subroutine, 
+   SOLVER_ENGINE, that directly takes a spacetime point and gives the solution there
+   (see example0); and a higher-level subroutine, SOLVER, that reads lists of
+   spacetimes from a binary input file and writes solutions into a binary output 
+   file (see example1-3). The input and output files could be processed by the 
+   MATLAB scripts provided in the ./scripts directory. Solver parameters, some of
+   which must be adjusted per the concrete problem, are read in at run time from the
+   text file UBER_params.in. This will be further explained in the next section.
+
+4. Examples 
+
+   In each ./examples/example? directory, do "make" to compile the example
+   executable "main.x". Then typing "./main.x" runs the example. 
+
+   4.0 Example0
+
+   This example solves a diffusion problem in a three-dimensional unit sphere with
+   internal sources and a partially reflective boundary. The PDE of the problem
+   is
+
+         df      d2    d2    d2
+         -- = D(--- + --- + ---)f + Sf + v(x,y,z)                             (1)
+         dt     dx2   dy2   dz2
+
+   where the differential operators shall all be understood as partial 
+   differentials, and the coefficients D = 0.1, S = 2.5, and
+
+                            10^(-6)
+         v(x,y,z) = -------------------------                                 (2)
+                    1 + sqrt(x^2 + y^2 + z^2)
+   
+   Initial condition is
+
+                            x^2 + y^2 + z^2
+         f(0,x,y,z) = exp(- ---------------)                                  (3)
+                                 0.02
+
+   and the boundary condition is
+
+           df   1  |
+         (D-- + -f)|   = 0                                                    (4)
+           dr   2  |r=1
+
+   which says a half of the diffusive flux is reflected whereas the other half is
+   lost on the sphere surface. r is the radius of the sphere.
+
+   Point solutions are obtained at t = 0.05 at three locations along the sphere
+   radii: (0.44, 0, 0), (0, 0.64, 0), and (0, 0, 0.84). The subroutine
+   SOLVER_ENGINE is called in its verbose mode as indicated by the existence of the
+   character argument "V", which would generate a detailed statistical diagnosis 
+   file for the solution. For more background information of this example, see Ref
+   [1] Section 4.1.
+
+   Values of the first three parameters in UBER_params.in should be adjusted for 
+   each problem to yield optimal performance. The first two parameters dictate the 
+   range of temporal stepsizes the solver may take in simulating stochastic 
+   trajectories, and the third parameter indicates the root-mean-square (RMS) 
+   spatial stepsize of the simulated stochastic trajectories the solver should 
+   achieve. The RMS spatial stepsize shall be small enough compared to the size of 
+   the domain and any scale length of the equation coefficients to allow sufficient
+   resolution of the problem. In this example, the size of the domain is O(1) and
+   all equation coefficients are slowly varying, therefore an RMS spatial stepsize
+   0.01 is sufficient.
+
+   For a stochastic process, the relation between the RMS spatial stepsize (dS) and
+   the temporal stepsize (dt) is
+
+         dS = sqrt[2tr(D)dt]                                                  (5)
+                       =
+
+   where tr(D) is trace of the diffusion tensor D which in this example is a rank-3
+            =                                   =
+   diagonal tensor with each diagonal component 0.1. From Eq. (5) one can calculate
+   that the temporal stepsize corresponding to dS = 0.01 is about 10^(-4). The range
+   of temporal stepsizes should enclose this value, and be properly widened so that
+   the adaptive algorithms of the solver can take full advantage. 
+
+   4.1 Example1
+
+   This example solves exactly the same problem as Example0 but in a spherical
+   coordinate system, in which the problem is reduced to one-dimensional. The
+   Jacobian determinant is r^2, and the gradient of its logrithm is (2/r, 0, 0) in
+   spherical coordinates, which is provided in the source file user_input.F90 to
+   indicate the coordinate system.
+
+   With a singularity of the equation at the pole of the spherical coordinates, a
+   boundary condition must be imposed at r = 0 as
+
+         df|
+         --|   = 0                                                            (6)
+         dr|r=0
+
+   In its numerical implementation, to avoid the pole, this boundary condition is 
+   actually imposed at r = epsBnd, which is a very small number effecting the 
+   numerical thickness of all boundaries in UBER. The value of the parameter epsBnd
+   is related to the given RMS spatial stepsize (which should be much smaller than 
+   the dimension of the domain), and is printed to screen together with other 
+   parameters at the beginning of the code execution.
+
+   This example uses the higher-level subroutine SOLVER which takes solution
+   spacetimes from an input file. To generate the input file, run the MATLAB script
+   example1_input.m. After the main program execution, run the script 
+   example1_plot.m to plot the UBER solutions against reference ones obtained from 
+   finite difference method.
+
+   4.2 Example2
+
+   This example solves a one-dimensional Fokker-Planck equation with additional 
+   jumping (non-diffusive) transport. The equation is given as
+
+          d          d2         /                   /
+         --f(t,x) = ---f(t,x) - | P(x->y)f(t,x)dy + | P(y->x)f(t,y)dy         (7)
+         dt         dx2         /                   /
+
+   where the integration kernel P(x->y) is the jumping rate from x to y. The
+   computational domain is x from 0 to 1, with reflective boundaries on both ends.
+   To simplify the situation, the jumping rate is chosen as a delta function
+
+         P(x->y) = 10*delta(x - y + 1/2)                                      (8)
+
+   which says that a particle initially at x (x<1/2) has a transition rate of 10 to
+   jump to y = x + 1/2. With this simplification, the integrals in Eq. (7) can be
+   carried out explicitly, which yield 
+
+         /              ( 1, for x < 1/2
+         | P(x->y)dy = <                                                      (9)
+         /              ( 0, for x>= 1/2
+
+   and
+
+         /                    ( 0,          for x < 1/2
+         | P(y->x)f(t,y)dy = <                                                (10)
+         /                    ( f(t,x-1/2), for x>= 1/2
+
+   For the general situations where P(x->y) is not a delta function, functions
+   carrying out these integrals shall be called at assigning these equation terms.
+   For more discussion on UBER solving integro-differential equations, see Ref [1]
+   Section 5.
+
+   Eq. (7) is solved with an initial Gaussian distribution centered at x = 1/2. From
+   the plot of solutions generated by example2_plot.m, one can see two signatures of
+   the jumping transport: (1) immediately after start, the distribution is non-zero
+   near x = 1; and (2) as time goes by, the distribution approaches an equilibrium
+   that is asymmetric about x = 1/2.
+
+   This example takes about 10 minutes to run using 86 CPUs with 2.1 GHz floating
+   point operation frequency.
+
+   4.3 Example3
+
+   This example illustrates how grided data are used in setting boundary geometry
+   and equation coefficients in UBER, and how periodic boundary conditions are
+   implemented. The equation is a Boltzmann equation arising from Earth's inner
+   radiation belt dynamics, which has the form
+
+         df    df   1  d       df
+         -- + w-- = - --(G Dxx --) + S                                        (11)
+         dt    dy   G dx       dx
+
+   where f is electron phase space density, x is electron equatorial pitch angle, y
+   is electron drift phase, w is electron drift frequency, Dxx is pitch-angle
+   diffusion coefficient, S is the source rate caused by cosmic ray albedo neutron
+   decay, and G is the Jacobian determinant of the (x,y) coordinates. Periodic
+   boundary condition is imposed for y such that
+
+         f(t,x,y=0) = f(t,x,y=2pi)                                            (12) 
+
+   Ref [1] Section 4.3 provides more background information about this example.
+
+   The script example3_plot.m plots two snapshots of f versus y and x at t = 2 and 4
+   hr. One should see distinct west-east gradient of f below x = 60 deg that changes
+   very little in time, and increased f above x = 60 deg that is a result of the
+   source.
+
+   This example takes about 45 minutes to run using 86 CPUs with 2.1 GHz floating
+   point operation frequency.
+
+5. Comment and bug reports
+
+   If you find any comment or bug, please kindly send an email to Liheng Zheng
+   (zhengliheng@gmail.com).
+
+6. References
+
+   [1] Zheng, L., L. Chen, A. A. Chan, P. Wang, Z. Xia and X. Liu,
+       "UBER v1.0: A universal kinetic equation solver for radiation belts",
+       to be submitted to Geoscientific Model Development.
+
+
+

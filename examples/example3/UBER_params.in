@@ -1,0 +1,11 @@
+2.d0              ! dtMin
+2.d2              ! dtMax
+1.75d-2           ! dS
+5.d-2             ! Beta
+3                 ! Ma
+1000              ! MMax
+4                 ! MMin
+20                ! MRed
+0.20d0            ! CriticalRatio
+4                 ! nChildren
+3                 ! nGenerations

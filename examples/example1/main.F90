@@ -1,0 +1,32 @@
+      program main
+      use uber
+      implicit none
+      real(8) :: sec0, sec1
+      integer, dimension(8) :: digits0, digits1
+      character(12) :: date, time, zone
+      character(STRLEN) :: fname_in = 'example1_in.dat'
+      character(STRLEN) :: fname_out = 'example1_out.dat'
+
+!     meter the starting time
+      call date_and_time(date, time, zone, digits0)
+
+      call initialize_uber(fname_in, fname_out)
+      call solver()
+      call finalize_uber()
+
+!     meter the ending time
+      call date_and_time(date, time, zone, digits1)
+      sec0 = dble(digits0(5))*3.6d3 + dble(digits0(6))*6.d1 + &
+           & dble(digits0(7)) + dble(digits0(8))*1.d-3
+      sec1 = dble(digits1(5))*3.6d3 + dble(digits1(6))*6.d1 + &
+           & dble(digits1(7)) + dble(digits1(8))*1.d-3
+      if( sec1<=sec0 ) sec1 = sec1 + 24.d0*3600.d0
+
+100   format(A,I2,':',I2,"'",I2,'.',I3,'"')
+      write(6,fmt=100)      ' Time started: ', digits0(5:8)
+      write(6,fmt=100)      ' Time ended  : ', digits1(5:8)
+      write(6,'(A,F9.3,A)') ' Time used   : ', sec1 - sec0,' sec'
+      flush(6)
+
+      end program main
+
