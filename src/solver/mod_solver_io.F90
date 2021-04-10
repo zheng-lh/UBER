@@ -222,7 +222,7 @@ contains
                        & x3_list, t_list_out
          case default
             print *,' mod_solver_io procedure solver_io_open_output_file:'
-            print *,'  wront io_npd =',io_npd
+            print *,'  wrong io_npd =',io_npd
             close(Funit_out)
             stop
          end select
