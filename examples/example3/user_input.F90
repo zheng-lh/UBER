@@ -425,8 +425,7 @@ contains
       phi%x3 = NoData
 
       call bounce_loss_cone%get(phi, blc_at_phi)
-!      call dipole_lshell%get(phi, lshell_at_phi)
-      lshell_at_phi = L
+      call dipole_lshell%get(phi, lshell_at_phi)
 
       s = sin(xt%x1)
       c = cos(xt%x1)
