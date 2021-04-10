@@ -81,7 +81,7 @@ endif
 #########################
 
 .DELETE_ON_ERROR:
-.PHONY: lib oclean clean arc
+.PHONY: lib oclean clean
 
 log := make.log
 
