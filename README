@@ -153,7 +153,7 @@
 
    where tr(D) is trace of the diffusion tensor D which in this example is a rank-3
             =                                   =
-   diagonal tensor with each diagonal component 0.1. From Eq. (5) one can calculate
+   diagonal matrix with each diagonal component 0.1. From Eq. (5) one can calculate
    that the temporal stepsize corresponding to dS = 0.01 is about 10^(-4). The range
    of temporal stepsizes should enclose this value, and be properly widened so that
    the adaptive algorithms of the solver can take full advantage. 
