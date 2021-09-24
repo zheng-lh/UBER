@@ -1,11 +1,22 @@
 module mod_equation_typedef
-! * * * * * * * * * * * * * * * * * Editing Log * * * * * * * * * * * * * * * * * *
-! created by Liheng Zheng on 01/19/2020
+! * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+! Copyright 2021, Liheng Zheng
+!
+! This file is part of UBER.
+!
+!    UBER is free software: you can redistribute it and/or modify it under the
+!    terms of the MIT License as published by Massachusetts Institute of
+!    Technology. UBER is distributed in the hope that it will be useful, but
+!    WITHOUT ANY WARRANTY, without even the implied warranty of MERCHANTABILITY or
+!    FITNESS FOR A PARTICULAR PURPOSE. See the MIT License for more details.
+!
+!    You should have received a copy of the MIT License along with UBER. If not,
+!    see <https://opensource.org/licenses/MIT>.
 ! * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
       implicit none
       public
 
-!     Consider a Boltzmann equation up to three dimensions in the form (e.g.,
+!     Consider a Fokker-Planck equation up to three dimensions in the form (e.g.,
 !     Eq. (180) in Schulz [1991]):
 !
 !        dt(u) + (1/G)*di(G*hi*u) = (1/G)*di[G*Dij*dj(u)] + S*u + v,             (1)
@@ -53,6 +64,9 @@ module mod_equation_typedef
 
 end module mod_equation_typedef
 
+! * * * * * * * * * * * * * * * * * Editing Log * * * * * * * * * * * * * * * * * *
+! created by Liheng Zheng on 01/19/2020
+! * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
 
 

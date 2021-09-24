@@ -1,11 +1,25 @@
 module mod_solver_random_number
-!     this module sets up the pseudo-random number generator for the solver.
+! * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+! Copyright 2021, Liheng Zheng
+!
+! This file is part of UBER.
+!
+!    UBER is free software: you can redistribute it and/or modify it under the
+!    terms of the MIT License as published by Massachusetts Institute of
+!    Technology. UBER is distributed in the hope that it will be useful, but
+!    WITHOUT ANY WARRANTY, without even the implied warranty of MERCHANTABILITY or
+!    FITNESS FOR A PARTICULAR PURPOSE. See the MIT License for more details.
+!
+!    You should have received a copy of the MIT License along with UBER. If not,
+!    see <https://opensource.org/licenses/MIT>.
+! * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
       use iso_c_binding
       use omp_lib
       implicit none
       private
       public init_dcmt, free_dcmt, gausrand, exprand
       save
+!     this module sets up the pseudo-random number generator for the solver.
 
 !     thread identity
       integer(c_int) :: tid

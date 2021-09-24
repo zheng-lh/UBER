@@ -1,25 +1,17 @@
 module mod_solver_engine
-! * * * * * * * * * * * * * * * * * Editing Log * * * * * * * * * * * * * * * * * *
-! 1) removed the source distribution sorting function intended but unfinished in the
-!    previous version
-! 
-! 2) removed the returned initial value from subroutine solver_engine
+! * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+! Copyright 2021, Liheng Zheng
 !
-! 3) changed input argument ISTAT from logical to optional character(1)
+! This file is part of UBER.
 !
-! 4) changed MLeast from 5 to 4
+!    UBER is free software: you can redistribute it and/or modify it under the
+!    terms of the MIT License as published by Massachusetts Institute of
+!    Technology. UBER is distributed in the hope that it will be useful, but
+!    WITHOUT ANY WARRANTY, without even the implied warranty of MERCHANTABILITY or
+!    FITNESS FOR A PARTICULAR PURPOSE. See the MIT License for more details.
 !
-! Liheng Zheng, 01/09/2020
-!
-! 1) added statistics of medianU, medianV and fission number per the changes in mod_
-!    solver_batch, mod_solver_ito_process and mod_solver_tree
-!
-! Liheng Zheng, 02/27/2020
-!
-! 1) added quantiles of F per the changes in mod_solver_batch and mod_solver_ito_
-!    process
-!
-! Liheng Zheng, 03/04/2020
+!    You should have received a copy of the MIT License along with UBER. If not,
+!    see <https://opensource.org/licenses/MIT>.
 ! * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
       use mod_typedef_params, dummy_ParamFname => ParamFname, &
           & dummy_initialize_params => initialize_params
@@ -313,6 +305,28 @@ contains
 
 end module mod_solver_engine
 
+! * * * * * * * * * * * * * * * * * Editing Log * * * * * * * * * * * * * * * * * *
+! 1) removed the source distribution sorting function intended but unfinished in the
+!    previous version
+! 
+! 2) removed the returned initial value from subroutine solver_engine
+!
+! 3) changed input argument ISTAT from logical to optional character(1)
+!
+! 4) changed MLeast from 5 to 4
+!
+! Liheng Zheng, 01/09/2020
+!
+! 1) added statistics of medianU, medianV and fission number per the changes in mod_
+!    solver_batch, mod_solver_ito_process and mod_solver_tree
+!
+! Liheng Zheng, 02/27/2020
+!
+! 1) added quantiles of F per the changes in mod_solver_batch and mod_solver_ito_
+!    process
+!
+! Liheng Zheng, 03/04/2020
+! * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
 
 

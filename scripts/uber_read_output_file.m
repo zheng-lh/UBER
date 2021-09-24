@@ -1,4 +1,19 @@
 function ostr = uber_read_output_file(fname)
+% * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+% Copyright 2021, Liheng Zheng
+%
+% This file is part of UBER.
+%
+%    UBER is free software: you can redistribute it and/or modify it under the
+%    terms of the MIT License as published by Massachusetts Institute of
+%    Technology. UBER is distributed in the hope that it will be useful, but
+%    WITHOUT ANY WARRANTY, without even the implied warranty of MERCHANTABILITY or
+%    FITNESS FOR A PARTICULAR PURPOSE. See the MIT License for more details.
+%
+%    You should have received a copy of the MIT License along with UBER. If not,
+%    see <https://opensource.org/licenses/MIT>.
+% * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+%
 % function ostr = uber_read_output_file(fname)
 % this function reads the UBER solution output file and stores its content into a
 % structure.

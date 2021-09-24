@@ -1,12 +1,17 @@
 module mod_domain_typedef
-! * * * * * * * * * * * * * * * * * Editing Log * * * * * * * * * * * * * * * * * *
-! 1) moved declarations of integer nBoundaries and type(boundary) boundaries(:) to
-!    the mod_domain module.
+! * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+! Copyright 2021, Liheng Zheng
 !
-! 2) moved declaration and evaluation of real(8) epsBnd to the mod_typedef_params
-!    module.
+! This file is part of UBER.
 !
-! Liheng Zheng, 01/19/2020
+!    UBER is free software: you can redistribute it and/or modify it under the
+!    terms of the MIT License as published by Massachusetts Institute of
+!    Technology. UBER is distributed in the hope that it will be useful, but
+!    WITHOUT ANY WARRANTY, without even the implied warranty of MERCHANTABILITY or
+!    FITNESS FOR A PARTICULAR PURPOSE. See the MIT License for more details.
+!
+!    You should have received a copy of the MIT License along with UBER. If not,
+!    see <https://opensource.org/licenses/MIT>.
 ! * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
       use mod_typedef_params, only: spacetime
       implicit none
@@ -72,6 +77,15 @@ module mod_domain_typedef
 
 end module mod_domain_typedef
 
+! * * * * * * * * * * * * * * * * * Editing Log * * * * * * * * * * * * * * * * * *
+! 1) moved declarations of integer nBoundaries and type(boundary) boundaries(:) to
+!    the mod_domain module.
+!
+! 2) moved declaration and evaluation of real(8) epsBnd to the mod_typedef_params
+!    module.
+!
+! Liheng Zheng, 01/19/2020
+! * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
 
 

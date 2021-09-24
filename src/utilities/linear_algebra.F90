@@ -1,11 +1,24 @@
 module linear_algebra
-!     This module contains all subroutines to perform linear algebraic calculations
-!     for the REM. This module uses the LAPACK library (version 3.5.0), obtained from
-!     "http://www.netlib.org/lapack/". This module shall not depend on any other module.
-
+! * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+! Copyright 2021, Liheng Zheng
+!
+! This file is part of UBER.
+!
+!    UBER is free software: you can redistribute it and/or modify it under the
+!    terms of the MIT License as published by Massachusetts Institute of
+!    Technology. UBER is distributed in the hope that it will be useful, but
+!    WITHOUT ANY WARRANTY, without even the implied warranty of MERCHANTABILITY or
+!    FITNESS FOR A PARTICULAR PURPOSE. See the MIT License for more details.
+!
+!    You should have received a copy of the MIT License along with UBER. If not,
+!    see <https://opensource.org/licenses/MIT>.
+! * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
       implicit none
       public
       private :: minor, assembly, lower_triangle
+! This module contains all subroutines to perform linear algebraic calculations for
+! the UBER library. This module uses the LAPACK library obtained from
+! <http://www.netlib.org/lapack/>. This module shall not depend on any other module.
  
 contains
       
@@ -423,6 +436,6 @@ contains
       end subroutine cspd
             
 end module linear_algebra
-      
-      
-      
+
+
+

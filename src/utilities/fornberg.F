@@ -1,4 +1,19 @@
       module fornberg
+c * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+c Copyright 2021, Liheng Zheng
+c
+c This file is part of UBER.
+c
+c    UBER is free software: you can redistribute it and/or modify it under the
+c    terms of the MIT License as published by Massachusetts Institute of
+c    Technology. UBER is distributed in the hope that it will be useful, but
+c    WITHOUT ANY WARRANTY, without even the implied warranty of MERCHANTABILITY or
+c    FITNESS FOR A PARTICULAR PURPOSE. See the MIT License for more details.
+c
+c    You should have received a copy of the MIT License along with UBER. If not,
+c    see <https://opensource.org/licenses/MIT>.
+c * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+c
 c...  This module, named after Bengt Fornberg, the person who deviced these algorithms,
 c...  contains the routines that calculate the first and second order derivatives of
 c...  a function on a one-dimensional unevenly spaced grid.

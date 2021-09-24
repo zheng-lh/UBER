@@ -1,48 +1,17 @@
 module mod_solver_ito_process
-! * * * * * * * * * * * * * * * * * Editing Log * * * * * * * * * * * * * * * * * *
-! 1) renamed unwanted module entities to dummy_(original name) in the 'use' clauses
+! * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+! Copyright 2021, Liheng Zheng
 !
-! 2) added reference to Oksendal [2000]
+! This file is part of UBER.
 !
-! 3) made relevant adaptions to the new type definitions, domain, grid and equation
-!    modules in this revision
+!    UBER is free software: you can redistribute it and/or modify it under the
+!    terms of the MIT License as published by Massachusetts Institute of
+!    Technology. UBER is distributed in the hope that it will be useful, but
+!    WITHOUT ANY WARRANTY, without even the implied warranty of MERCHANTABILITY or
+!    FITNESS FOR A PARTICULAR PURPOSE. See the MIT License for more details.
 !
-! 4) added a path integral about the v term in Eq. (3) in mod_equation_typedef.F90
-!
-! 5) did not use the staggered-time-and-space sampling of SDE coefficients in the
-!    modified Euler scheme of Ref. [3], but used uniform-time-and-space sampling,
-!    for the following reasons: (a) the staggered scheme is designed to deal with
-!    time-variation irregularity in the coefficients, but does not improve accuracy
-!    of the scheme; (b) the staggered scheme complicates the algorithm and slows
-!    down calculation by requiring extra evaluations of the coefficients at
-!    different times; (c) most of the coefficients met by this program are expected
-!    to be time-independent, which make the staggered scheme indifferent from the
-!    uniform one, or regularly varied in time in the worst case. 
-!
-! 6) changed the use of parameter CriticalRatio to an input argument RATIO to 
-!    adapt to the improved fission strategy (see mod_solver_batch.F90).
-!
-! 7) changed type-bound procedure name RUN to WALK to better reflect the meaning
-!    of a random walk.
-!
-! Liheng Zheng, 12/29/2019
-!
-! 1) corrected the fission criterion and the relevant input/output arguments of
-!    procedure WALK per the corrected tree tracing method. previously, partial
-!    functional value was used in the fission criterion; the corrected criterion
-!    uses the projected functional value of the entire path instead.
-!
-! 2) modified and moved type stat_moments from mod_solver_batch.F90 to here
-!
-! Liheng Zheng, 02/25/2020
-!
-! 1) modified type stat_moments and moved back to mod_solver_batch.F90
-!
-! 2) change the fission criterion: it no longer uses the statistics of batch means
-!    but the statistics of ito prcoesses themselves. modified type ito_proc_params
-!    in accordance.
-!
-! Liheng Zheng, 03/04/2020
+!    You should have received a copy of the MIT License along with UBER. If not,
+!    see <https://opensource.org/licenses/MIT>.
 ! * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
       use mod_typedef_params, dummy_ParamFname => ParamFname, &
           & dummy_initialize_params => initialize_params
@@ -806,6 +775,51 @@ contains
 
 end module mod_solver_ito_process
 
+! * * * * * * * * * * * * * * * * * Editing Log * * * * * * * * * * * * * * * * * *
+! 1) renamed unwanted module entities to dummy_(original name) in the 'use' clauses
+!
+! 2) added reference to Oksendal [2000]
+!
+! 3) made relevant adaptions to the new type definitions, domain, grid and equation
+!    modules in this revision
+!
+! 4) added a path integral about the v term in Eq. (3) in mod_equation_typedef.F90
+!
+! 5) did not use the staggered-time-and-space sampling of SDE coefficients in the
+!    modified Euler scheme of Ref. [3], but used uniform-time-and-space sampling,
+!    for the following reasons: (a) the staggered scheme is designed to deal with
+!    time-variation irregularity in the coefficients, but does not improve accuracy
+!    of the scheme; (b) the staggered scheme complicates the algorithm and slows
+!    down calculation by requiring extra evaluations of the coefficients at
+!    different times; (c) most of the coefficients met by this program are expected
+!    to be time-independent, which make the staggered scheme indifferent from the
+!    uniform one, or regularly varied in time in the worst case. 
+!
+! 6) changed the use of parameter CriticalRatio to an input argument RATIO to 
+!    adapt to the improved fission strategy (see mod_solver_batch.F90).
+!
+! 7) changed type-bound procedure name RUN to WALK to better reflect the meaning
+!    of a random walk.
+!
+! Liheng Zheng, 12/29/2019
+!
+! 1) corrected the fission criterion and the relevant input/output arguments of
+!    procedure WALK per the corrected tree tracing method. previously, partial
+!    functional value was used in the fission criterion; the corrected criterion
+!    uses the projected functional value of the entire path instead.
+!
+! 2) modified and moved type stat_moments from mod_solver_batch.F90 to here
+!
+! Liheng Zheng, 02/25/2020
+!
+! 1) modified type stat_moments and moved back to mod_solver_batch.F90
+!
+! 2) change the fission criterion: it no longer uses the statistics of batch means
+!    but the statistics of ito prcoesses themselves. modified type ito_proc_params
+!    in accordance.
+!
+! Liheng Zheng, 03/04/2020
+! * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
 
 

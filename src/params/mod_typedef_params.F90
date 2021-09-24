@@ -1,34 +1,17 @@
 module mod_typedef_params
-! * * * * * * * * * * * * * * * * * Editing Log * * * * * * * * * * * * * * * * * *
-! 1) redefined type coefficients and type components to incorporate the added term v
-!    in the Boltzmann equation (1).
+! * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+! Copyright 2021, Liheng Zheng
 !
-! 2) added a new parameter NoData
+! This file is part of UBER.
 !
-! 3) renamed FissionRatio to CriticalRatio to better reflect its meaning.
+!    UBER is free software: you can redistribute it and/or modify it under the
+!    terms of the MIT License as published by Massachusetts Institute of
+!    Technology. UBER is distributed in the hope that it will be useful, but
+!    WITHOUT ANY WARRANTY, without even the implied warranty of MERCHANTABILITY or
+!    FITNESS FOR A PARTICULAR PURPOSE. See the MIT License for more details.
 !
-! 4) some revision of the comments.
-!
-! 5) added parameters STRLEN and BUFFER
-!
-! Liheng Zheng, 01/13/2020
-! 
-! 1) moved epsBnd from mod_domain_typedef to this module
-!
-! 2) moved declarations of type coefficients and type components to mod_equation_
-!    typedef module 
-!
-! 3) moved declaration of NBAT from mod_solver_batch module to here
-!
-! Liheng Zheng, 01/19/2020
-!
-! 1) added an integer parameter MaxGenerations
-!
-! 2) changed the meaning of CriticalRatio (explained in comments)
-!
-! 3) added validity checks in INITIALIZE_PARAMS
-!
-! Liheng Zheng, 03/02/2020
+!    You should have received a copy of the MIT License along with UBER. If not,
+!    see <https://opensource.org/licenses/MIT>.
 ! * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
       implicit none
       save
@@ -195,6 +178,37 @@ contains
 
 end module mod_typedef_params
 
+! * * * * * * * * * * * * * * * * * Editing Log * * * * * * * * * * * * * * * * * *
+! 1) redefined type coefficients and type components to incorporate the added term v
+!    in the Boltzmann equation (1).
+!
+! 2) added a new parameter NoData
+!
+! 3) renamed FissionRatio to CriticalRatio to better reflect its meaning.
+!
+! 4) some revision of the comments.
+!
+! 5) added parameters STRLEN and BUFFER
+!
+! Liheng Zheng, 01/13/2020
+! 
+! 1) moved epsBnd from mod_domain_typedef to this module
+!
+! 2) moved declarations of type coefficients and type components to mod_equation_
+!    typedef module 
+!
+! 3) moved declaration of NBAT from mod_solver_batch module to here
+!
+! Liheng Zheng, 01/19/2020
+!
+! 1) added an integer parameter MaxGenerations
+!
+! 2) changed the meaning of CriticalRatio (explained in comments)
+!
+! 3) added validity checks in INITIALIZE_PARAMS
+!
+! Liheng Zheng, 03/02/2020
+! * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
 
 

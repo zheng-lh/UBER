@@ -1,33 +1,17 @@
 module mod_solver_tree
-! * * * * * * * * * * * * * * * * * Editing Log * * * * * * * * * * * * * * * * * *
-! 1) added a second real field into type node to contain the extra path-integral
-!    functional value introduced by the term v in Eq. (2) of mod_equation_
-!    typedef.F90, and changed the relevant procedures
+! * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+! Copyright 2021, Liheng Zheng
 !
-! 2) renamed the original type-bound procedure FINISH to DESTROY which is used to
-!    forcibly destroy a tree object to release memory, and added a final procedure
-!    named FINISH. the procedure DESTROY is used in the do-loop of SOLVER_BATCH,
-!    where after each iteration the tree object is no longer needed but the compiler
-!    would not know.
+! This file is part of UBER.
 !
-! Liheng Zheng, 11/19/2019
+!    UBER is free software: you can redistribute it and/or modify it under the
+!    terms of the MIT License as published by Massachusetts Institute of
+!    Technology. UBER is distributed in the hope that it will be useful, but
+!    WITHOUT ANY WARRANTY, without even the implied warranty of MERCHANTABILITY or
+!    FITNESS FOR A PARTICULAR PURPOSE. See the MIT License for more details.
 !
-! 1) commented out the final subroutine FINISH to avoid duplicated memory-release
-!    attempts since DESTROY is used explicitly
-!
-! Liheng Zheng, 01/29/2020
-!
-! 1) corrected the tracing method and the underneath meaning of node values U and V.
-!    previously, nodal U and V store the segmental path integrals of the
-!    corresponding stochastic path segment, and the tracing method was only correct
-!    when V vanishes. in this correction, nodal U and V store the aggregated path
-!    integrals from the root down to that node. in addition, for the terminal node,
-!    the initial/boundary condition value is no longer multiplied to U, but is
-!    stored in xt%x1 since xt is useless for the terminal node. this allows TRACE
-!    to also calculate the traced U and V values of the tree, which are useful in
-!    determining the fission criterion in mod_solver_ito_process.F90.
-!
-! Liheng Zheng, 02/25/2020
+!    You should have received a copy of the MIT License along with UBER. If not,
+!    see <https://opensource.org/licenses/MIT>.
 ! * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
       use mod_typedef_params, only: spacetime, nChildren, nGenerations
       implicit none
@@ -389,5 +373,35 @@ contains
 !
 end module mod_solver_tree
 
+! * * * * * * * * * * * * * * * * * Editing Log * * * * * * * * * * * * * * * * * *
+! 1) added a second real field into type node to contain the extra path-integral
+!    functional value introduced by the term v in Eq. (2) of mod_equation_
+!    typedef.F90, and changed the relevant procedures
+!
+! 2) renamed the original type-bound procedure FINISH to DESTROY which is used to
+!    forcibly destroy a tree object to release memory, and added a final procedure
+!    named FINISH. the procedure DESTROY is used in the do-loop of SOLVER_BATCH,
+!    where after each iteration the tree object is no longer needed but the compiler
+!    would not know.
+!
+! Liheng Zheng, 11/19/2019
+!
+! 1) commented out the final subroutine FINISH to avoid duplicated memory-release
+!    attempts since DESTROY is used explicitly
+!
+! Liheng Zheng, 01/29/2020
+!
+! 1) corrected the tracing method and the underneath meaning of node values U and V.
+!    previously, nodal U and V store the segmental path integrals of the
+!    corresponding stochastic path segment, and the tracing method was only correct
+!    when V vanishes. in this correction, nodal U and V store the aggregated path
+!    integrals from the root down to that node. in addition, for the terminal node,
+!    the initial/boundary condition value is no longer multiplied to U, but is
+!    stored in xt%x1 since xt is useless for the terminal node. this allows TRACE
+!    to also calculate the traced U and V values of the tree, which are useful in
+!    determining the fission criterion in mod_solver_ito_process.F90.
+!
+! Liheng Zheng, 02/25/2020
+! * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
 

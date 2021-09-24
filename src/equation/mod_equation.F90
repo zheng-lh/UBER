@@ -1,11 +1,17 @@
 module mod_equation
-! * * * * * * * * * * * * * * * * * Editing Log * * * * * * * * * * * * * * * * * *
-! 1) rewritten based on the orginal mod_equation and mod_equation_inc
+! * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+! Copyright 2021, Liheng Zheng
 !
-! 2) user-specified functions will be contained in a submodule, interfaces of these
-!    functions are provided here
+! This file is part of UBER.
 !
-! Liheng Zheng, 11/18/2019
+!    UBER is free software: you can redistribute it and/or modify it under the
+!    terms of the MIT License as published by Massachusetts Institute of
+!    Technology. UBER is distributed in the hope that it will be useful, but
+!    WITHOUT ANY WARRANTY, without even the implied warranty of MERCHANTABILITY or
+!    FITNESS FOR A PARTICULAR PURPOSE. See the MIT License for more details.
+!
+!    You should have received a copy of the MIT License along with UBER. If not,
+!    see <https://opensource.org/licenses/MIT>.
 ! * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
       use mod_typedef_params, only: space, spacetime, STRLEN, BUFFER, NoData
       use mod_equation_typedef
@@ -108,6 +114,14 @@ contains
 
 end module mod_equation
 
+! * * * * * * * * * * * * * * * * * Editing Log * * * * * * * * * * * * * * * * * *
+! 1) rewritten based on the orginal mod_equation and mod_equation_inc
+!
+! 2) user-specified functions will be contained in a submodule, interfaces of these
+!    functions are provided here
+!
+! Liheng Zheng, 11/18/2019
+! * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
 
 

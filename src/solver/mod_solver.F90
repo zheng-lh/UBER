@@ -1,12 +1,17 @@
 module mod_solver
-! * * * * * * * * * * * * * * * * * Editing Log * * * * * * * * * * * * * * * * * *
-! created by Liheng Zheng on 01/10/2020
+! * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+! Copyright 2021, Liheng Zheng
 !
-! 1) made solution_prev (from mod_solver_solution_grid) public for its access from
-!    submodule mod_equation:user_input. solution_prev will be needed in solving
-!    non-diffusive integro-differential kinetic equations.
+! This file is part of UBER.
 !
-! Liheng Zheng, 10/24/2020
+!    UBER is free software: you can redistribute it and/or modify it under the
+!    terms of the MIT License as published by Massachusetts Institute of
+!    Technology. UBER is distributed in the hope that it will be useful, but
+!    WITHOUT ANY WARRANTY, without even the implied warranty of MERCHANTABILITY or
+!    FITNESS FOR A PARTICULAR PURPOSE. See the MIT License for more details.
+!
+!    You should have received a copy of the MIT License along with UBER. If not,
+!    see <https://opensource.org/licenses/MIT>.
 ! * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
       use mod_typedef_params, only: space, spacetime, NoData
       use mod_domain, only: domain_query, domain_initial_condition
@@ -352,5 +357,14 @@ contains
 
 end module mod_solver
 
+! * * * * * * * * * * * * * * * * * Editing Log * * * * * * * * * * * * * * * * * *
+! created by Liheng Zheng on 01/10/2020
+!
+! 1) made solution_prev (from mod_solver_solution_grid) public for its access from
+!    submodule mod_equation:user_input. solution_prev will be needed in solving
+!    non-diffusive integro-differential kinetic equations.
+!
+! Liheng Zheng, 10/24/2020
+! * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
 

@@ -1,17 +1,17 @@
 module mod_grid_typedef
-! * * * * * * * * * * * * * * * * * Editing Log * * * * * * * * * * * * * * * * * *
-! 1) added type-bound deferred procedures grid_set_pointers, grid_data_alloc and
-!    grid_data_dealloc
+! * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+! Copyright 2021, Liheng Zheng
 !
-! 2) removed the type-bound procedure grid_continuation. philosophy behind this move
-!    is that any grid data preparation is now regarded as a pre-processing of input
-!    to this model, rather than a part of this model.
+! This file is part of UBER.
 !
-! 3) removed the procedure pointers search and avarray, which are now procedures
+!    UBER is free software: you can redistribute it and/or modify it under the
+!    terms of the MIT License as published by Massachusetts Institute of
+!    Technology. UBER is distributed in the hope that it will be useful, but
+!    WITHOUT ANY WARRANTY, without even the implied warranty of MERCHANTABILITY or
+!    FITNESS FOR A PARTICULAR PURPOSE. See the MIT License for more details.
 !
-! 4) added procedure print_grid and edited procedure print_mask
-!
-! Liheng Zheng, 11/16/2019
+!    You should have received a copy of the MIT License along with UBER. If not,
+!    see <https://opensource.org/licenses/MIT>.
 ! * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
       use mod_typedef_params, only: space, STRLEN, NoData
       use interpolation
@@ -574,6 +574,20 @@ contains
 
 end module mod_grid_typedef
 
+! * * * * * * * * * * * * * * * * * Editing Log * * * * * * * * * * * * * * * * * *
+! 1) added type-bound deferred procedures grid_set_pointers, grid_data_alloc and
+!    grid_data_dealloc
+!
+! 2) removed the type-bound procedure grid_continuation. philosophy behind this move
+!    is that any grid data preparation is now regarded as a pre-processing of input
+!    to this model, rather than a part of this model.
+!
+! 3) removed the procedure pointers search and avarray, which are now procedures
+!
+! 4) added procedure print_grid and edited procedure print_mask
+!
+! Liheng Zheng, 11/16/2019
+! * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
 
 

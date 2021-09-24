@@ -1,17 +1,17 @@
 module mod_domain
-! * * * * * * * * * * * * * * * * * Editing Log * * * * * * * * * * * * * * * * * *
-! 1) moved declarations of integer nBoundaries and type(boundary) boundaries(:) from
-!    the mod_domain_typedef module to this module
+! * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+! Copyright 2021, Liheng Zheng
 !
-! 2) changed module mod_domain_ibc to a user-specified submodule, and added the
-!    appropriate interfaces here
+! This file is part of UBER.
 !
-! Liheng Zheng, 11/15/2019
+!    UBER is free software: you can redistribute it and/or modify it under the
+!    terms of the MIT License as published by Massachusetts Institute of
+!    Technology. UBER is distributed in the hope that it will be useful, but
+!    WITHOUT ANY WARRANTY, without even the implied warranty of MERCHANTABILITY or
+!    FITNESS FOR A PARTICULAR PURPOSE. See the MIT License for more details.
 !
-! 1) added interfaces to user-specified procedures domain_set_data and domain_clean_
-!    data
-!
-! Liheng Zheng, 01/19/2020
+!    You should have received a copy of the MIT License along with UBER. If not,
+!    see <https://opensource.org/licenses/MIT>.
 ! * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
       use mod_typedef_params, only: space, spacetime, STRLEN, BUFFER, NoData, &
           & epsBnd, Neighborhood
@@ -136,6 +136,20 @@ contains
 
 end module mod_domain
 
+! * * * * * * * * * * * * * * * * * Editing Log * * * * * * * * * * * * * * * * * *
+! 1) moved declarations of integer nBoundaries and type(boundary) boundaries(:) from
+!    the mod_domain_typedef module to this module
+!
+! 2) changed module mod_domain_ibc to a user-specified submodule, and added the
+!    appropriate interfaces here
+!
+! Liheng Zheng, 11/15/2019
+!
+! 1) added interfaces to user-specified procedures domain_set_data and domain_clean_
+!    data
+!
+! Liheng Zheng, 01/19/2020
+! * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
 
 

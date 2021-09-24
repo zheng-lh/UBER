@@ -1,38 +1,17 @@
 module mod_solver_batch
-! * * * * * * * * * * * * * * * * * Editing Log * * * * * * * * * * * * * * * * * *
-! 1) made relevant adaptions to the new ito process module in this revision
+! * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+! Copyright 2021, Liheng Zheng
 !
-! 2) removed the source distribution sorting function intended but unfinished in the
-!    previous version
+! This file is part of UBER.
 !
-! 3) moved declaration of NBAT to mod_typedef_params.F90
+!    UBER is free software: you can redistribute it and/or modify it under the
+!    terms of the MIT License as published by Massachusetts Institute of
+!    Technology. UBER is distributed in the hope that it will be useful, but
+!    WITHOUT ANY WARRANTY, without even the implied warranty of MERCHANTABILITY or
+!    FITNESS FOR A PARTICULAR PURPOSE. See the MIT License for more details.
 !
-! 4) improved the fission strategy. in the previous version, only one fission
-!    generation is allowed, which is born when the partial functional value of the
-!    running ito process is larger than the functional expectation by CriticalRatio
-!    times of deviation. in this revision, multiple generations are allowed. the
-!    fission criterion for each generation is when the partial functional value of
-!    the ito process segment in this generation is (GENERATION + 1)*CriticalRatio
-!    times of deviation larger than the functional expectation. GENERATION is 0 for
-!    the root generation.
-!
-! Liheng Zheng, 01/08/2020
-!
-! 1) modified the implementations of ito process and tree in accordance to their
-!    02/25/2020 edition. especially, the fission strategy no longer uses the partial
-!    functional value, but uses the projected functional value of the entire path,
-!    in the fission criterion.
-!
-! 2) added a field fission_number to type batch_statistics
-!
-! Liheng Zheng, 02/27/2020
-!
-! 1) changed the fission strategy. now fission occurs when the projected functional
-!    value of an ito process is greater than some statistical quantile of previous
-!    functional values. the quantile is specified by CriticalRatio, whose meaning
-!    is also changed (see mod_typedef_params.F90).
-!
-! Liheng Zheng, 03/04/2020
+!    You should have received a copy of the MIT License along with UBER. If not,
+!    see <https://opensource.org/licenses/MIT>.
 ! * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
       use mod_typedef_params, dummy_ParamFname => ParamFname, &
           & dummy_initialize_params => initialize_params
@@ -298,6 +277,41 @@ contains
 
 end module mod_solver_batch
 
+! * * * * * * * * * * * * * * * * * Editing Log * * * * * * * * * * * * * * * * * *
+! 1) made relevant adaptions to the new ito process module in this revision
+!
+! 2) removed the source distribution sorting function intended but unfinished in the
+!    previous version
+!
+! 3) moved declaration of NBAT to mod_typedef_params.F90
+!
+! 4) improved the fission strategy. in the previous version, only one fission
+!    generation is allowed, which is born when the partial functional value of the
+!    running ito process is larger than the functional expectation by CriticalRatio
+!    times of deviation. in this revision, multiple generations are allowed. the
+!    fission criterion for each generation is when the partial functional value of
+!    the ito process segment in this generation is (GENERATION + 1)*CriticalRatio
+!    times of deviation larger than the functional expectation. GENERATION is 0 for
+!    the root generation.
+!
+! Liheng Zheng, 01/08/2020
+!
+! 1) modified the implementations of ito process and tree in accordance to their
+!    02/25/2020 edition. especially, the fission strategy no longer uses the partial
+!    functional value, but uses the projected functional value of the entire path,
+!    in the fission criterion.
+!
+! 2) added a field fission_number to type batch_statistics
+!
+! Liheng Zheng, 02/27/2020
+!
+! 1) changed the fission strategy. now fission occurs when the projected functional
+!    value of an ito process is greater than some statistical quantile of previous
+!    functional values. the quantile is specified by CriticalRatio, whose meaning
+!    is also changed (see mod_typedef_params.F90).
+!
+! Liheng Zheng, 03/04/2020
+! * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
 
 
