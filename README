@@ -248,7 +248,7 @@
 
          f(t,x,y=0) = f(t,x,y=2pi)                                            (12) 
 
-   Ref [1] Section 4.3 provides more background information about this example.
+   Ref [1] Section 4.4 provides more background information about this example.
    
    The auxilliary data files ex3_bounce_loss_cone.dat and ex3_dipole_lshell.dat,
    located in ./examples/data/, store the local bounce loss cone angle and dipole
