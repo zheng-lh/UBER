@@ -39,11 +39,12 @@
    3.8.0 and lapack version 3.9.0. The user must edit Makefile.in to specify the
    directories of these libraries and their include files.
 
-   To compile UBER, in the directory of this README, do "make". Then "libuber.a" 
-   will be created in this directory, and the compilation for the library is done. 
-   To use the library, "use uber" in your source code, and link your code with
-   libuber.a, libdcmt.a, librefblas.a and liblapack.a when compiling the source. In
-   addition, "make oclean" cleans the intermediate object files generated in the
+   To compile UBER, in the directory of this README, edit Makefile.in to specify
+   your compilers and the relevant library directories, and then do "make". Library
+   archive file "libuber.a" will be created in this directory, and the compilation 
+   is done. To use the library, "use uber" in your source code, and link your code 
+   with libuber.a, libdcmt.a, librefblas.a and liblapack.a when compiling the source.
+   In addition, "make oclean" cleans the intermediate object files generated in the
    compiling process, and "make clean" removes everything that "make" would create.
 
    UBER is parallelized by OpenMP. For its proper execution, set these environmental
