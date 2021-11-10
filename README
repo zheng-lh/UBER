@@ -58,7 +58,7 @@
       setenv OMP_STACKSIZE=256M (or higher)
       setenv OMP_NUM_THREADS= the number of threads you want to use
 
-   Make sure you add these enviromental variables to your .bashrc, .cshrc, or
+   Make sure you add these environmental variables to your .bashrc, .cshrc, or
    .tcshrc script.
 
 3. The library structure and functions
