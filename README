@@ -163,7 +163,7 @@
 
    This example solves exactly the same problem as Example0 but in a spherical
    coordinate system, in which the problem is reduced to one-dimensional. The
-   Jacobian determinant is r^2, and the gradient of its logrithm is (2/r, 0, 0) in
+   Jacobian determinant is r^2, and the gradient of its logarithm is (2/r, 0, 0) in
    spherical coordinates, which is provided in the source file user_input.F90 to
    indicate the coordinate system.
 
