@@ -72,7 +72,7 @@
    (PDE) problem. It is consisted of three parts: (1) a domain part that states the
    computational domain, the initial condition, the boundary geometry and the 
    boundary conditions; (2) an equation part that specifies the coordinate system 
-   (in terms of the gradient of logrithm of the Jacobian determinant), the equation
+   (in terms of the gradient of logarithm of the Jacobian determinant), the equation
    terms and the equation coefficients; and (3) the solver, with the solver data 
    types and parameters collectively defined and explained in the source file
    ./src/params/mod_typedef_params.F90.
