@@ -174,9 +174,19 @@ contains
          return
       end if
 
-!     the ito process cannot start off the domain
       call domain_query(xt_start, marker, bid_curr)
-      if( marker==-1 ) then
+      if( marker==0 ) then
+         bptr => boundaries(bid_curr)
+!        no need to walk the ito process if it is already on a Dirichlet boundary
+         if( bptr%b_type==1 .and. abs(bptr%equation(xt_start))<epsBnd ) then
+            this%xt_end%space = xt_start%space
+            this%xt_end%t = t_stop
+            this%bid = bid_curr
+            this%nsteps = 1
+            return
+         end if
+      elseif( marker==-1 ) then
+!        the ito process cannot start off the domain
          print *,' mod_solver_ito_process procedure ito_process%walk:'
          print '(A,I3)','  xt_start is out of domain, bid =',bid_curr
          print '(A,3(F10.4,A))','  xt_start = (',xt_start%x1,',',xt_start%x2,',' &
@@ -294,74 +304,69 @@ contains
 !        [6] check if xt_next has crossed a boundary
          call domain_query(xt_next, marker, bid_next)
          if( marker==-1 ) then
-!           xt_curr must have been in the neighborhood of the same boundary when
-!           xt_next crosses the boundary. in other words, a big step larger than
-!           the neighborhood width at crossing is not allowed. for a Dirichlet type
-!           boundary, this restriction ensures accuracy of the stopping position;
-!           for a Neumann type boundary, knowledge of vgamma at xt_curr is required
-!           to calculate the projection at xt_next.
-            if( bid_next==bid_curr ) then
-!              bptr has been pointing to the right boundary
-               if( bptr%b_type==1 ) then
-!                 find the intersection point if xt_next crosses a Dirichlet type
-!                 boundary and assign the boundary id
-                  call intersection(xt_curr, xt_next, bid_next, xt_int, tp)
-                  xt_next = xt_int
-                  dt = tp*dt
-                  end_of_path = .true.
-                  this%bid = bid_next
-               elseif( bptr%b_type==2 ) then
-!                 find the projection point if xt_next crosses a Neumann type
-!                 boundary. note that vgamma is the gamma vector at xt_curr.
-                  call projection(xt_next, bid_next, vgamma, xt_next_proj, tp, &
-                                & success)
-                  if( success ) then
-                     if( tp>=0.d0 ) then
-!                       this is the displacement vector from xt_next to xt_next_proj
-!                       its norm also contributes to the local time increment (c.f.
-!                       Ref. [4])
-                        Fgamma = vgamma*tp
-                        dkt = dkt + sqrt(dot_product(Fgamma, Fgamma))
-                        xt_next = xt_next_proj
-!@                        print '(A,4(F10.4,A))','  xt_next_proj = (',xt_next_proj%x1,&
-!@                        & ',',xt_next_proj%x2,',',xt_next_proj%x3, &
-!@                        & ',',xt_next_proj%t,')'
-!@                        print *,' dkt =',dkt
-!                       do the boundary check again, because the projected point may
-!                       have been out of a Dirichlet type boundary. the case that
-!                       the projected points is out of another Neumann type boundary
-!                       with a different normal vector will not happen, because the
-!                       SDE theory requires vgamma to be C4.
-                        goto 100
-                     else
-!                       tp may not be < 0 because vgamma points inward and xt_next
-!                       is out of the boundary.
-                        print *,' mod_solver_ito_process procedure ito_process%walk:'
-                        print *,'  tp =',tp,' < 0 occurred'
-                        print *,'  bid =',bid_next
-                        print '(A,3(F10.4,A))','  vgamma = (',vgamma(1),',', &
-                              & vgamma(2),',',vgamma(3),')'
-                        print '(A,4(F10.4,A))','  xt_next = (',xt_next%x1,',' &
-                              & ,xt_next%x2,',',xt_next%x3,',',xt_next%t,')'
-                        print '(A,4(F10.4,A))','  xt_next_proj = (', &
-                              & xt_next_proj%x1,',',xt_next_proj%x2,',', &
-                              & xt_next_proj%x3,',',xt_next_proj%t,')'
-                        stop
-                     end if
+!           a big step larger than the neighborhood width at crossing is not
+!           allowed. for a Dirichlet type boundary, this restriction ensures
+!           accuracy of the stopping position; for a Neumann type boundary,
+!           knowledge of vgamma at xt_curr is required to calculate the projection
+!           at xt_next. in case this occurs, reject and re-do this Euler step.
+            if( bid_curr==0 .or. dist(xt_next, xt_curr)>=Neighborhood ) goto 200 
+!           direct the boundary pointer to that of xt_next
+            bptr => boundaries(bid_next)
+
+            if( bptr%b_type==1 ) then
+!              find the intersection point if xt_next crosses a Dirichlet type
+!              boundary and assign the boundary id
+               call intersection(xt_curr, xt_next, bid_next, xt_int, tp)
+               xt_next = xt_int
+               dt = tp*dt
+               end_of_path = .true.
+               this%bid = bid_next
+            elseif( bptr%b_type==2 ) then
+!              find the projection point if xt_next crosses a Neumann type boundary.
+!              note that the input vgamma is the gamma vector at xt_curr.
+               call projection(xt_next, bid_next, vgamma, xt_next_proj, tp, success)
+               if( success ) then
+                  if( tp>=0.d0 ) then
+!                    this is the displacement vector from xt_next to xt_next_proj
+!                    its norm also contributes to the local time increment (c.f.
+!                    Ref. [4])
+                     Fgamma = vgamma*tp
+                     dkt = dkt + sqrt(dot_product(Fgamma, Fgamma))
+                     xt_next = xt_next_proj
+!@                     print '(A,4(F10.4,A))','  xt_next_proj = (',xt_next_proj%x1,&
+!@                     & ',',xt_next_proj%x2,',',xt_next_proj%x3, &
+!@                     & ',',xt_next_proj%t,')'
+!@                     print *,' dkt =',dkt
+!                    do the boundary check again, because the projected point may
+!                    have been out of a Dirichlet type boundary. the case that
+!                    the projected points is out of another Neumann type boundary
+!                    with a different normal vector will not happen, because the
+!                    SDE theory requires vgamma to be C4.
+                     goto 100
                   else
-!                    failed to find a projection point. this means the current
-!                    step is too large. reject and re-do the Euler step.
-                     goto 200
+!                    tp may not be < 0 because vgamma points inward and xt_next
+!                    is out of the boundary.
+                     print *,' mod_solver_ito_process procedure ito_process%walk:'
+                     print *,'  tp =',tp,' < 0 occurred'
+                     print *,'  bid =',bid_next
+                     print '(A,3(F10.4,A))','  vgamma = (',vgamma(1),',', &
+                           & vgamma(2),',',vgamma(3),')'
+                     print '(A,4(F10.4,A))','  xt_next = (',xt_next%x1,',' &
+                           & ,xt_next%x2,',',xt_next%x3,',',xt_next%t,')'
+                     print '(A,4(F10.4,A))','  xt_next_proj = (', &
+                           & xt_next_proj%x1,',',xt_next_proj%x2,',', &
+                           & xt_next_proj%x3,',',xt_next_proj%t,')'
+                     stop
                   end if
                else
-                  print *,' mod_solver_ito_process procedure ito_process%walk:'
-                  print *,'  unrecognized b_type =',bptr%b_type
-                  stop
+!                 failed to find a projection point. this means the current step is
+!                 too large. reject and re-do the Euler step.
+                  goto 200
                end if
             else
-!              a step larger than the neighborhood width occurred when the ito
-!              process crosses the boundary. reject and re-do this Euler step.
-               goto 200
+               print *,' mod_solver_ito_process procedure ito_process%walk:'
+               print *,'  unrecognized b_type =',bptr%b_type
+               stop
             end if
          end if
 
@@ -819,6 +824,18 @@ end module mod_solver_ito_process
 !    in accordance.
 !
 ! Liheng Zheng, 03/04/2020
+!
+! 1) improved step [6] "check if xt_next has crossed a boundary". previously, when
+!    crossing a boundary, xt_curr and xt_next were required to have the same
+!    boundary id. this would cause trouble to the code when xt_curr is in the corner
+!    between multiple boundary pieces. the current step [6] is able to take care
+!    of such a case.
+!
+! 2) added a direct return with the ito process staying at its original position if
+!    it is started on a Dirichlet boundary. now the code can deal with starting
+!    positions on all types of boundaries.
+!
+! Liheng Zheng, 06/21/2024
 ! * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
 

@@ -73,6 +73,8 @@ contains
       end if
 
       if( nx1>0 ) then
+         if( allocated(xx1) ) deallocate( xx1 )
+         if( allocated(darr) ) deallocate( darr )
          allocate( xx1(nx1), darr(nx1) )
       else
          print *,' mod_grid_io procedure grid_io_read_data_file_1d:'
@@ -113,6 +115,9 @@ contains
       end if
       
       if( nx1>0 .and. nx2>0 ) then
+         if( allocated(xx1) ) deallocate( xx1 )
+         if( allocated(xx2) ) deallocate( xx2 )
+         if( allocated(darr) ) deallocate( darr )
          allocate( xx1(nx1), xx2(nx2), darr(nx1,nx2) )
       else
          print *,' mod_grid_io procedure grid_io_read_data_file_2d:'
@@ -154,6 +159,10 @@ contains
       end if
 
       if( nx1>0 .and. nx2>0 .and. nx3>0 ) then
+         if( allocated(xx1) ) deallocate( xx1 )
+         if( allocated(xx2) ) deallocate( xx2 )
+         if( allocated(xx3) ) deallocate( xx3 )
+         if( allocated(darr) ) deallocate( darr )
          allocate( xx1(nx1), xx2(nx2), xx3(nx3), darr(nx1,nx2,nx3) )
       else
          print *,' mod_grid_io procedure grid_io_read_data_file_3d:'
@@ -180,6 +189,14 @@ end module mod_grid_io
 
 ! * * * * * * * * * * * * * * * * * Editing Log * * * * * * * * * * * * * * * * * *
 ! created by Liheng Zheng on 01/13/2020
+!
+! 1) Added array allocation check to each subroutine, so that if the output
+!    allocatable arrays had been allocated before passing to the subroutine, 
+!    possibly from a previous call of this subroutine, they will be deallocated. In
+!    this way, the user needs not to explicitly deallocate these output arrays after
+!    calling the subroutine.
+!
+! Liheng Zheng, 06/18/2024
 ! * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
 

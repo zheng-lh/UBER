@@ -232,8 +232,7 @@ contains
          if( fwrite ) then
 !           export detailed solution statistics into a file
             percent_in_domain = 100.d0*boundary_bins(0)/sum_boundary_bins
-            call solver_engine_name_str(xt_start, fname)
-            fname = 'STAT_'//trim(fname)//'.txt'
+            call solver_engine_name_str(fname)
 
             open(newunit=fid,file=fname,form='formatted',status='replace')
             write(fid,'(A)')' UBER solution statistics sheet'
@@ -281,27 +280,39 @@ contains
 
 
 
-      subroutine solver_engine_name_str(xt, name_str)
-      type(spacetime), intent(in) :: xt
+      subroutine solver_engine_name_str(name_str)
       character(STRLEN), intent(out) :: name_str
-      integer :: intx1, intx2, intx3, intt
-      integer :: decix1, decix2, decix3, decit
+      character(12) :: date, time
 
-      intx1 = int(xt%x1)
-      decix1 = nint(1.d3*(xt%x1 - aint(xt%x1)))
-      intx2 = int(xt%x2)
-      decix2 = nint(1.d3*(xt%x2 - aint(xt%x2)))
-      intx3 = int(xt%x3)
-      decix3 = nint(1.d3*(xt%x3 - aint(xt%x3)))
-      intt = int(xt%t)
-      decit = nint(1.d3*(xt%t - aint(xt%t)))
-
-500   format('X',I2.2,'p',I3.3,'Y',I2.2,'p',I3.3,'Z',I2.2,'p',I3.3,'T',I2.2,'p',I3.3)
-      write(unit=name_str,fmt=500) intx1, decix1, intx2, decix2, intx3, decix3, &
-                                 & intt, decit
+      call date_and_time(date, time)
+      name_str = 'STAT_'//date(1:8)//'_'//time(1:6)//'.txt'
       name_str = trim(name_str)
 
       end subroutine solver_engine_name_str
+!
+!
+!
+!      subroutine solver_engine_name_str(xt, name_str)
+!      type(spacetime), intent(in) :: xt
+!      character(STRLEN), intent(out) :: name_str
+!      integer :: intx1, intx2, intx3, intt
+!      integer :: decix1, decix2, decix3, decit
+!
+!      intx1 = int(xt%x1)
+!      decix1 = nint(1.d3*(xt%x1 - aint(xt%x1)))
+!      intx2 = int(xt%x2)
+!      decix2 = nint(1.d3*(xt%x2 - aint(xt%x2)))
+!      intx3 = int(xt%x3)
+!      decix3 = nint(1.d3*(xt%x3 - aint(xt%x3)))
+!      intt = int(xt%t)
+!      decit = nint(1.d3*(xt%t - aint(xt%t)))
+!
+!500   format('X',I2.2,'p',I3.3,'Y',I2.2,'p',I3.3,'Z',I2.2,'p',I3.3,'T',I2.2,'p',I3.3)
+!      write(unit=name_str,fmt=500) intx1, decix1, intx2, decix2, intx3, decix3, &
+!                                 & intt, decit
+!      name_str = trim(name_str)
+!
+!      end subroutine solver_engine_name_str
 
 end module mod_solver_engine
 
@@ -326,6 +337,11 @@ end module mod_solver_engine
 !    process
 !
 ! Liheng Zheng, 03/04/2020
+!
+! 1) changed naming convention of the diagnostic statistics file. it now uses date
+!    and time as a part of its name.
+!
+! Liheng Zheng, 06/21/2024
 ! * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 
 
